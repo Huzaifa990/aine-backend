@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const Student = require("./Model/Students");
+const Recipe = require("./Model/Recipes");
 require("./DB/Conn");
 
 const PORT = 8080;
@@ -23,6 +24,30 @@ app.post("/students", (req, res)=>{
         const addStudent = new Student(req.body);
         addStudent.save().then(()=>{
             res.status(200).send(addStudent);
+        }).catch((error)=>{
+        res.status(404).send(error);
+        })
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
+
+
+app.get("/recipes", async (req, res)=>{
+    try {
+        const recipes = await Recipe.find();
+        res.status(200).send(recipes);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
+app.post("/recipes", (req, res)=>{
+    try {
+        const addRecipes = new Recipe(req.body);
+        addRecipes.save().then(()=>{
+            res.status(200).send(addRecipes);
         }).catch((error)=>{
         res.status(404).send(error);
         })
