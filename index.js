@@ -19,6 +19,36 @@ app.get("/students", async (req, res)=>{
     }
 })
 
+app.get("/students/:id", async (req, res)=>{
+    try {
+        const id = req.params.id;
+        const students = await Student.findById(id);
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
+app.patch("/students/:id", async (req, res)=>{
+    try {
+        const id = req.params.id;
+        const students = await Student.findByIdAndUpdate(id, req.body, {new: true});
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
+app.delete("/students/:id", async (req, res)=>{
+    try {
+        const id = req.params.id;
+        const students = await Student.findByIdAndDelete(id);
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
 app.post("/students", (req, res)=>{
     try {
         const addStudent = new Student(req.body);
