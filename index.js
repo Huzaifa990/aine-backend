@@ -86,6 +86,37 @@ app.post("/recipes", (req, res)=>{
     }
 })
 
+app.get("/recipes/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const students = await Recipe.findById(id);
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+        
+    }
+})
+
+app.patch("/recipes/:id", async (req, res)=>{
+    try {
+        const id = req.params.id;
+        const students = await Recipe.findByIdAndUpdate(id, req.body, {new: true});
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
+app.delete("/recipes/:id", async (req, res)=>{
+    try {
+        const id = req.params.id;
+        const students = await Recipe.findByIdAndDelete(id);
+        res.status(200).send(students);
+    } catch (error) {
+        res.status(404).send(error);
+    }
+})
+
 app.listen(PORT, ()=> {
     console.log("APi is running on PORT: "+PORT);
 })
